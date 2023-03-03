@@ -28,7 +28,7 @@ export default function Home() {
             <ul>
               <li>Click on the cell</li>
               <li>A cell will turn grey if you MISSED</li>
-              <li>A cell will turn blue if you HIT a destroyer ship</li>
+              <li>A cell will turn yellow if you HIT a destroyer ship</li>
               <li>A cell will return red if you HIT a battleship</li>
               <li>
                 If all ships are sunk, the game will end and you will be

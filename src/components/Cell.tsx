@@ -13,7 +13,7 @@ const Cell = ({ onHandleClick, shipColor = '', isHit = false }: Props) => {
   }
 
   return (
-    <div
+    <button
       onClick={onHandleClick}
       className={styles.cell}
       style={cellShipStyle}
