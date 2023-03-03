@@ -1,0 +1,36 @@
+
+.Accordion {
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+    width: 300px;
+}
+
+.AccordionTitle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    cursor: pointer;
+}
+
+.AccordionBody {
+    width: 300px;
+    visibility: hidden;
+}
+
+.bodyActive {
+    visibility: visible;
+}
+
+.AccordionIcon::after {
+    content: '\02795'; /* Unicode character for "plus" sign (+) */
+    font-size: 2rem;
+    color: white;
+    margin-left: 5px;
+    transition: content 3s;
+}
+
+.active::after {
+    content: "\2796"; /* Unicode character for "minus" sign (-) */
+}

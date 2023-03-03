@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 
 
 interface Props {
@@ -8,6 +9,9 @@ interface Props {
 function useInitializeShips({totalShips, callBack} : Props) {
 
     // setup ships 1 battleship and 2 destroyers
+    useEffect(() => {
+        
+    }, [])
 
 
 }

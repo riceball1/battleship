@@ -21,7 +21,7 @@ export default function Home() {
       <main className={styles.main}>
         <h1>Battleship</h1>
         <Board />
-        <button>Reset</button>
+        <button className={styles.resetButton}>Reset</button>
 
         <div>
           <Accordion title="How to Play">
