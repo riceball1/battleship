@@ -7,3 +7,18 @@
     height: 400px;
     margin: 20px;
 }
+
+.resetButton {
+    width: 200px;
+    height: 45px;
+    font-size: 1.5rem;
+    background-color: green;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .resetButton:hover {
+    color: black;
+    background-color: lightgrey;
+  }

@@ -1,10 +1,10 @@
-import Head from "next/head";
-import { Inter } from "next/font/google";
-import styles from "@/styles/Home.module.css";
-import Board from "@/components/Board";
-import Accordion from "@/components/Accordion";
+import Head from 'next/head';
+import { Inter } from 'next/font/google';
+import styles from '@/styles/Home.module.css';
+import Board from '@/components/Board';
+import Accordion from '@/components/Accordion';
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ['latin'] });
 
 export default function Home() {
   return (
@@ -21,7 +21,6 @@ export default function Home() {
       <main className={styles.main}>
         <h1>Battleship</h1>
         <Board />
-        <button className={styles.resetButton}>Reset</button>
 
         <div>
           <Accordion title="How to Play">

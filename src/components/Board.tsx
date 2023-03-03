@@ -10,18 +10,27 @@ interface Props {
   totalShips?: number;
 }
 
+const generateBoardState = (rows: number, columns: number) => {
+  const rowArr = Array(rows).fill(null);
+  const columnArr = Array(columns).fill(null);
+  return rowArr.map((_, rowIndex) => {
+    return columnArr.map((_, columnIndex) => ({
+      id: `${rowIndex}-${columnIndex}`,
+      color: '',
+      isHit: false,
+    }));
+  });
+};
+
 const Board = ({ rows = 10, columns = 10, totalShips = 3 }: Props) => {
   const rowArr = Array(rows).fill(null);
   const columnArr = Array(columns).fill(null);
-  const [gridState, setGridState] = useState(
-    rowArr.map((_, rowIndex) => {
-      return columnArr.map((_, columnIndex) => ({
-        id: `${rowIndex}-${columnIndex}`,
-        color: '',
-        isHit: false,
-      }));
-    })
-  );
+  const [gridState, setGridState] = useState(generateBoardState(rows, columns));
+
+  const handleResetBoard = () => {
+    setGridState(generateBoardState(rows, columns));
+    // @TODO: reset ships coordinates
+  };
 
   /*
 
@@ -31,6 +40,7 @@ const Board = ({ rows = 10, columns = 10, totalShips = 3 }: Props) => {
   battleships - 4 length
 
   */
+
   const [ships, setShips] = useState([
     {
       shipType: ShipTypes.DESTROYER,
@@ -58,7 +68,6 @@ const Board = ({ rows = 10, columns = 10, totalShips = 3 }: Props) => {
   ]);
 
   const handleMakeTurn = ({
-    cellId,
     coordinates,
   }: {
     cellId: string;
@@ -85,25 +94,30 @@ const Board = ({ rows = 10, columns = 10, totalShips = 3 }: Props) => {
   };
 
   return (
-    <div className={styles.board}>
-      {rowArr.map((_, rowIndex) => {
-        return columnArr.map((_, columnIndex) => {
-          return (
-            <Cell
-              key={`${rowIndex}-${columnIndex}`}
-              shipColor={gridState[rowIndex][columnIndex].color}
-              isHit={gridState[rowIndex][columnIndex].isHit}
-              onHandleClick={() =>
-                handleMakeTurn({
-                  cellId: `${rowIndex}-${columnIndex}`,
-                  coordinates: { x: rowIndex, y: columnIndex },
-                })
-              }
-            />
-          );
-        });
-      })}
-    </div>
+    <>
+      <div className={styles.board}>
+        {rowArr.map((_, rowIndex) => {
+          return columnArr.map((_, columnIndex) => {
+            return (
+              <Cell
+                key={`${rowIndex}-${columnIndex}`}
+                shipColor={gridState[rowIndex][columnIndex].color}
+                isHit={gridState[rowIndex][columnIndex].isHit}
+                onHandleClick={() =>
+                  handleMakeTurn({
+                    cellId: `${rowIndex}-${columnIndex}`,
+                    coordinates: { x: rowIndex, y: columnIndex },
+                  })
+                }
+              />
+            );
+          });
+        })}
+      </div>
+      <button className={styles.resetButton} onClick={handleResetBoard}>
+        Reset
+      </button>
+    </>
   );
 };
 
