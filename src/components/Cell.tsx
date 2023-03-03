@@ -6,16 +6,16 @@ interface Props {
   isHit?: boolean;
 }
 
-const Cell = ({ onHandleClick, shipColor = '', isHit = false }: Props) => {
+const Cell = ({ onHandleClick, shipColor = 'transparent', isHit = false }: Props) => {
   
   const cellShipStyle = {
-    backgroundColor: isHit ? shipColor : ""
+    backgroundColor: isHit ? shipColor : "transparent",
+    border: '1px solid white'
   }
 
   return (
     <button
       onClick={onHandleClick}
-      className={styles.cell}
       style={cellShipStyle}
     />
   );

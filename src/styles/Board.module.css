@@ -1,14 +1,9 @@
 
 .board {
-    display: grid;
+    display: inline-grid;
     grid-template-columns: repeat(10, 1fr);
     grid-template-rows: repeat(10, 1fr);
     width: 400px;
     height: 400px;
     margin: 20px;
-}
-
-.cell {
-    outline: solid;
-    padding: 5px;
 }
