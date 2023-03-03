@@ -1,7 +1,7 @@
 enum ShipTypes {
-  NONE,
-  DESTROYER,
-  BATTLESHIP,
+  NONE = 'NONE',
+  DESTROYER = 'DESTROYER',
+  BATTLESHIP = 'BATTLESHIP',
 }
 
 enum TurnType {
@@ -48,4 +48,31 @@ function checkTurn({ ships, cellCoordinates }: CheckTurnProps) {
   return TurnType.MISSED;
 }
 
-export { checkTurn, ShipTypes };
+enum Color {
+  BATTLESHIP = 'red',
+  DESTROYER = 'yellow',
+  NONE = 'gray',
+}
+
+const getShipColor = ({
+  ships,
+  coordinates,
+}: {
+  ships: ShipProps[];
+  coordinates: Coordinates;
+}) => {
+
+  for (let ship of ships) {
+    let locations = ship.coordinates;
+    for (let location of locations) {
+      if (`${location.x}${location.y}` === `${coordinates.x}${coordinates.y}`) {
+        // found a matching ship
+        return Color[ShipTypes[ship.shipType]];
+      } 
+    }
+  }
+
+  return Color[ShipTypes.NONE];
+};
+
+export { checkTurn, ShipTypes, getShipColor, Color };
