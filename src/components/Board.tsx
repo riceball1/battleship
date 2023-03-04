@@ -1,8 +1,9 @@
 import styles from '@/styles/Board.module.css';
 import Cell from '@/components/Cell';
 import { useState } from 'react';
-// import useInitializeShips from "@/utils/useInitializeShips";
-import { ShipTypes, getShipColor, Coordinates, Color } from '@/utils/helper';
+import { getShipColor, Coordinates, Ships } from '@/utils/helper';
+import { generateShipCoordinates } from '@/utils/shipHelper';
+import useInitializeShips from '@/utils/useInitializeShips';
 
 interface Props {
   rows?: number;
@@ -29,43 +30,16 @@ const Board = ({ rows = 10, columns = 10, totalShips = 3 }: Props) => {
 
   const handleResetBoard = () => {
     setGridState(generateBoardState(rows, columns));
-    // @TODO: reset ships coordinates
+    const newShipsCoordinates = generateShipCoordinates();
+    // @ts-ignore
+    setShips(newShipsCoordinates);
   };
 
-  /*
+  const [ships, setShips] = useState<Ships[]>([]);
+  const [toastMessage, setToastMessage] = useState('');
+  const [shipSunkState, setShipSunkState] = useState(0);
 
-   @TODO: setup state for the ships to be placed on the board on mount useInitializeShips({totalShips: totalShips, callBack: setShips})
-
-  destroyer ships - 2 length
-  battleships - 4 length
-
-  */
-
-  const [ships, setShips] = useState([
-    {
-      shipType: ShipTypes.DESTROYER,
-      coordinates: [
-        { x: 0, y: 1 },
-        { x: 0, y: 2 },
-      ],
-    },
-    {
-      shipType: ShipTypes.DESTROYER,
-      coordinates: [
-        { x: 7, y: 3 },
-        { x: 7, y: 4 },
-      ],
-    },
-    {
-      shipType: ShipTypes.BATTLESHIP,
-      coordinates: [
-        { x: 2, y: 9 },
-        { x: 3, y: 9 },
-        { x: 4, y: 9 },
-        { x: 5, y: 9 },
-      ],
-    },
-  ]);
+  useInitializeShips(setShips);
 
   const handleMakeTurn = ({
     coordinates,
@@ -80,6 +54,9 @@ const Board = ({ rows = 10, columns = 10, totalShips = 3 }: Props) => {
       coordinates: { x, y },
     });
 
+    // check if the ship is sunk - toast message
+    // check if ship hit what type it is -- toast message
+
     // update grid state
     setGridState((prevState) => {
       let newState = [...prevState];
@@ -93,8 +70,11 @@ const Board = ({ rows = 10, columns = 10, totalShips = 3 }: Props) => {
     });
   };
 
+  if (ships.length < 0) return null;
+
   return (
     <>
+      <div></div>
       <div className={styles.board}>
         {rowArr.map((_, rowIndex) => {
           return columnArr.map((_, columnIndex) => {

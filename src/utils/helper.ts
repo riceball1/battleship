@@ -11,10 +11,15 @@ enum TurnType {
   SUNK = 'SUNK', // when a ship is completely hit
 }
 
-export interface Coordinates {
+export type Coordinates = {
   x: number;
   y: number;
-}
+};
+
+export type Ships = {
+  shipType: ShipTypes;
+  coordinates: Coordinates[];
+};
 
 interface ShipProps {
   shipType: ShipTypes;
@@ -61,14 +66,13 @@ const getShipColor = ({
   ships: ShipProps[];
   coordinates: Coordinates;
 }) => {
-
   for (let ship of ships) {
     let locations = ship.coordinates;
     for (let location of locations) {
       if (`${location.x}${location.y}` === `${coordinates.x}${coordinates.y}`) {
         // found a matching ship
         return Color[ShipTypes[ship.shipType]];
-      } 
+      }
     }
   }
 

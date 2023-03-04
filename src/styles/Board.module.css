@@ -1,17 +1,19 @@
 
 .board {
-    display: inline-grid;
+    display: grid;
     grid-template-columns: repeat(10, 1fr);
     grid-template-rows: repeat(10, 1fr);
-    width: 400px;
-    height: 400px;
+    min-width: 250px;
+    min-height: 250px;
+    height: 50%;
+    width: 50%;
     margin: 20px;
 }
 
 .resetButton {
-    width: 200px;
+    width: 100px;
     height: 45px;
-    font-size: 1.5rem;
+    font-size: 1rem;
     background-color: green;
     border-radius: 5px;
     border: none;
@@ -21,4 +23,8 @@
   .resetButton:hover {
     color: black;
     background-color: lightgrey;
+  }
+
+  .Cell {
+    border: 1px solid white;
   }

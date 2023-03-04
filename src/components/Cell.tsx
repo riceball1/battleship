@@ -13,10 +13,9 @@ const Cell = ({
 }: Props) => {
   const cellShipStyle = {
     backgroundColor: isHit ? shipColor : 'transparent',
-    border: '1px solid white',
   };
 
-  return <button onClick={onHandleClick} style={cellShipStyle} />;
+  return <button onClick={onHandleClick} style={cellShipStyle} className={styles.Cell} />;
 };
 
 export default Cell;

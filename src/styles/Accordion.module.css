@@ -17,6 +17,8 @@
 .AccordionBody {
     width: 300px;
     visibility: hidden;
+    padding: 2rem;
+    border: 1px solid white;
 }
 
 .bodyActive {
