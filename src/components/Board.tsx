@@ -47,7 +47,8 @@ const Board = ({ rows = 10, columns = 10, totalShips = 3 }: Props) => {
     totalSunkShips: 0,
     shipsHit: {}, // use shipName and count total hits
   });
-  const [score, setScore] = useState(rows * 3); // default turns
+  const DEFAULT_TURNS = rows * 3;
+  const [score, setScore] = useState(DEFAULT_TURNS); // default turns
   const [notification, setNotification] = useState<string>('');
   // first initialize ships
   useInitializeShips(setShips);
@@ -58,7 +59,11 @@ const Board = ({ rows = 10, columns = 10, totalShips = 3 }: Props) => {
     setGridState(generateBoardState(rows, columns));
     const newShipsCoordinates = generateShipCoordinates();
     setShips(newShipsCoordinates);
-    setScore(rows * 2);
+    setScore(DEFAULT_TURNS);
+    setShipStatus({
+      totalSunkShips: 0,
+      shipsHit: {}, // use shipName and count total hits
+    });
   };
 
   useEffect(() => {
@@ -82,6 +87,8 @@ const Board = ({ rows = 10, columns = 10, totalShips = 3 }: Props) => {
     cellId: string;
     coordinates: Coordinates;
   }) => {
+    // reset the notification messages
+    setNotification('');
     if (score === 0) return; // prevent making further turns if game is lost
     const { x, y } = coordinates;
 
