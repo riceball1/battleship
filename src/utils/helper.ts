@@ -19,15 +19,11 @@ export type Coordinates = {
 export type Ships = {
   shipType: ShipTypes;
   coordinates: Coordinates[];
+  shipName: string;
 };
 
-interface ShipProps {
-  shipType: ShipTypes;
-  coordinates: Coordinates[];
-}
-
 interface CheckTurnProps {
-  ships: ShipProps[];
+  ships: Ships[];
   cellCoordinates: Coordinates;
 }
 
@@ -59,13 +55,36 @@ enum Color {
   NONE = 'gray',
 }
 
+interface ShipInfoProps {
+    ships: Ships[];
+    coordinates: Coordinates;
+  }
+
+
+const getShipName = ({
+  ships,
+  coordinates,
+} : ShipInfoProps) => {
+
+  for (let ship of ships) {
+    let locations = ship.coordinates;
+    for (let location of locations) {
+      if (`${location.x}${location.y}` === `${coordinates.x}${coordinates.y}`) {
+        // found a matching ship
+        return ship.shipName;
+      }
+    }
+  }
+
+  return ""
+
+
+}
+
 const getShipColor = ({
   ships,
   coordinates,
-}: {
-  ships: ShipProps[];
-  coordinates: Coordinates;
-}) => {
+}: ShipInfoProps) => {
   for (let ship of ships) {
     let locations = ship.coordinates;
     for (let location of locations) {
@@ -79,4 +98,4 @@ const getShipColor = ({
   return Color[ShipTypes.NONE];
 };
 
-export { checkTurn, ShipTypes, getShipColor, Color };
+export { checkTurn, ShipTypes, getShipColor, Color, getShipName };

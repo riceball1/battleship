@@ -96,6 +96,7 @@ const generateShipCoordinates = () => {
     return {
       shipType: index == 2 ? ShipTypes.BATTLESHIP : ShipTypes.DESTROYER,
       coordinates: obj,
+      shipName: `${index == 2 ? ShipTypes.BATTLESHIP : ShipTypes.DESTROYER}${index}`
     };
   });
   return shipCoords;
