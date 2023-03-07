@@ -56,16 +56,11 @@ enum Color {
 }
 
 interface ShipInfoProps {
-    ships: Ships[];
-    coordinates: Coordinates;
-  }
+  ships: Ships[];
+  coordinates: Coordinates;
+}
 
-
-const getShipName = ({
-  ships,
-  coordinates,
-} : ShipInfoProps) => {
-
+const getShipName = ({ ships, coordinates }: ShipInfoProps) => {
   for (let ship of ships) {
     let locations = ship.coordinates;
     for (let location of locations) {
@@ -76,15 +71,21 @@ const getShipName = ({
     }
   }
 
-  return ""
+  return '';
+};
 
+const checkWonGame = (
+  totalSunkShips: number,
+  callback: (message: string) => void
+): void => {
+  const DEFAULT_SHIP_NUMBER = 3;
+  if (totalSunkShips === DEFAULT_SHIP_NUMBER) {
+    callback('You won the game 🎉 !');
+    return;
+  }
+};
 
-}
-
-const getShipColor = ({
-  ships,
-  coordinates,
-}: ShipInfoProps) => {
+const getShipColor = ({ ships, coordinates }: ShipInfoProps) => {
   for (let ship of ships) {
     let locations = ship.coordinates;
     for (let location of locations) {
@@ -98,4 +99,4 @@ const getShipColor = ({
   return Color[ShipTypes.NONE];
 };
 
-export { checkTurn, ShipTypes, getShipColor, Color, getShipName };
+export { checkTurn, ShipTypes, getShipColor, Color, getShipName, checkWonGame };

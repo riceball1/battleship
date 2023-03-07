@@ -7,6 +7,8 @@ import {
   Ships,
   Color,
   getShipName,
+  ShipTypes,
+  checkWonGame,
 } from '@/utils/helper';
 import { generateShipCoordinates } from '@/utils/shipHelper';
 import useInitializeShips from '@/utils/useInitializeShips';
@@ -31,7 +33,6 @@ const generateBoardState = (rows: number, columns: number) => {
 
 interface ShipStatusState {
   totalSunkShips: number;
-  totalShips: number;
   shipsHit: { [key: string]: number };
 }
 
@@ -44,10 +45,9 @@ const Board = ({ rows = 10, columns = 10, totalShips = 3 }: Props) => {
   const [ships, setShips] = useState<Ships[]>([]);
   const [shipsStatus, setShipStatus] = useState<ShipStatusState>({
     totalSunkShips: 0,
-    totalShips: 3, // default always 3 ships
     shipsHit: {}, // use shipName and count total hits
   });
-  const [score, setScore] = useState(rows * 2); // default turns
+  const [score, setScore] = useState(rows * 3); // default turns
   const [notification, setNotification] = useState<string>('');
   // first initialize ships
   useInitializeShips(setShips);
@@ -62,10 +62,11 @@ const Board = ({ rows = 10, columns = 10, totalShips = 3 }: Props) => {
   };
 
   useEffect(() => {
+    console.log(shipsStatus);
     if (shipsStatus.totalSunkShips === 3) {
       const intervalId = setInterval(() => {
         handleResetBoard();
-      }, 1000);
+      }, 7000);
       setTime(intervalId);
     }
     return () => {
@@ -73,7 +74,7 @@ const Board = ({ rows = 10, columns = 10, totalShips = 3 }: Props) => {
         clearInterval(time);
       }
     };
-  }, [shipsStatus.totalSunkShips]);
+  }, [shipsStatus]);
 
   const handleMakeTurn = ({
     coordinates,
@@ -105,23 +106,48 @@ const Board = ({ rows = 10, columns = 10, totalShips = 3 }: Props) => {
       // get shipName
       const shipName = getShipName({ ships, coordinates });
 
-      setShipStatus((prevState) => ({
-        ...prevState,
-        totalSunkShips: prevState.totalSunkShips + 1,
-        shipsHit: {
-          ...prevState.shipsHit,
-          [shipName]:
-            prevState.shipsHit[shipName] + prevState.shipsHit[shipName],
-        },
-      }));
       setScore(currScore);
 
-      if (shipsStatus.totalSunkShips === 3) {
-        setNotification('You won the game!');
-        // automatically reset the game?
-      } else if (shipsStatus.shipsHit[shipName] == 2) {
+      if (
+        shipName.includes(ShipTypes.BATTLESHIP) &&
+        shipsStatus.shipsHit[shipName] + 1 === 4
+      ) {
+        // battleship
         // check if the ship is sunk - toast message - add score
-        setNotification('You sunk a ship!');
+        setShipStatus((prevState) => ({
+          ...prevState,
+          totalSunkShips: prevState.totalSunkShips + 1,
+          shipsHit: {
+            ...prevState.shipsHit,
+            [shipName]: prevState.shipsHit[shipName] + 1,
+          },
+        }));
+        setNotification('You sunk a battleship!');
+        checkWonGame(shipsStatus.totalSunkShips + 1, setNotification);
+      } else if (
+        shipName.includes(ShipTypes.DESTROYER) &&
+        shipsStatus.shipsHit[shipName] + 1 == 2
+      ) {
+        // destroyer
+        // check if the ship is sunk - toast message - add score
+        setShipStatus((prevState) => ({
+          ...prevState,
+          totalSunkShips: prevState.totalSunkShips + 1,
+          shipsHit: {
+            ...prevState.shipsHit,
+            [shipName]: prevState.shipsHit[shipName] + 1,
+          },
+        }));
+        setNotification('You sunk a destroyer ship!');
+        checkWonGame(shipsStatus.totalSunkShips + 1, setNotification);
+      } else {
+        setShipStatus((prevState) => ({
+          ...prevState,
+          shipsHit: {
+            ...prevState.shipsHit,
+            [shipName]: prevState.shipsHit[shipName] + 1 || 1,
+          },
+        }));
       }
     }
 
@@ -142,7 +168,7 @@ const Board = ({ rows = 10, columns = 10, totalShips = 3 }: Props) => {
 
   return (
     <>
-      <h2>{score}</h2>
+      <h2>Total turns: {score}</h2>
       {score === 0 ? <p>Oh noes! You lost the game!</p> : null}
       {notification.length > 0 ? <p>{notification}</p> : null}
       <div className={styles.board}>

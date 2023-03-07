@@ -15,7 +15,14 @@ const Cell = ({
     backgroundColor: isHit ? shipColor : 'transparent',
   };
 
-  return <button onClick={onHandleClick} style={cellShipStyle} className={styles.Cell} />;
+  return (
+    <button
+      disabled={isHit}
+      onClick={onHandleClick}
+      style={cellShipStyle}
+      className={styles.Cell}
+    />
+  );
 };
 
 export default Cell;

@@ -25,7 +25,12 @@ export default function Home() {
         <div>
           <Accordion title="How to Play">
             <p>
-              This version of Battleship will be for a single player. You have 20 turns to sink all 3 ships. There are 2 Destroyers with a length of 2 cells and 1 battleship with a length of 4 cells. Each time you hit correctly you will gain a life. Otherwise once you hit 0 lives left, you will automatically lose. If you do sink all the ships, you will be declared a winner. 
+              This version of Battleship will be for a single player. You have a
+              total of (row numbers x 3) turns to sink all 3 ships. There are 2
+              Destroyers with a length of 2 cells and 1 battleship with a length
+              of 4 cells. Each time you hit correctly you will gain a life.
+              Otherwise once you hit 0 lives left, you will automatically lose.
+              If you do sink all the ships, you will be declared a winner.
             </p>
             <ul>
               <li>Click on the cell</li>
